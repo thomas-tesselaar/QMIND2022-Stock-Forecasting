@@ -54,7 +54,10 @@ def norm_min_max(df, cols):
     for col in cols:
         df[col] = df[col] / df[col].abs().max()
         
-        
+# normalizes numbers using z-score
+def norm_z_score(df, cols):
+    for col in cols:
+        df[col] = (df[col] - df[col].mean()) / df[col].std()    
         
 """
 Function that will compare the adj. close values to its previous value to check
@@ -151,7 +154,8 @@ def prep_for_learning(df, normalize = None, print_head = True):
     
     if(normalize == 'min-max'):
         norm_min_max(clean_df, clean_df.columns)
-    
+    elif(normalize == 'z-score'):
+        norm_z_score(clean_df, clean_df.columns)
     
     if(print_head):
         display(clean_df.head(5))
