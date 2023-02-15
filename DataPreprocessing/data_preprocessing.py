@@ -26,7 +26,8 @@ def merge_csv(stock_name:str, search_terms:list[str], pathname = "",
     
     for i, search_term in enumerate(search_terms):
         # import search data
-        search_df = pd.read_csv(pathname + search_term + search_suffix + '.csv', header=1)
+#         search_df = pd.read_csv(pathname + search_term + search_suffix + '.csv', header=1)
+        search_df = pd.read_csv(pathname + search_term + search_suffix + '.csv')
         
         # rename header for uniqueness
         search_df.rename(columns={search_df.columns[1]: "sf_" + str(i)}, inplace=True)
@@ -36,7 +37,7 @@ def merge_csv(stock_name:str, search_terms:list[str], pathname = "",
         search_df.index = range(len(search_df))
         
         # merge to the main dataframe
-        stock_df = stock_df.join(search_df["sf_" + str(i)])
+        stock_df = stock_df.join(search_df["sf_" + str(i)].replace('<1', 0))
         
     
     # add week to the dataframe
@@ -210,5 +211,3 @@ def measure_correlation2(df, cols):
     return correlation
     
     
-
-
